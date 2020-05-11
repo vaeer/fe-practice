@@ -1,0 +1,19 @@
+{
+  "name": "fe-practice",
+  "version": "1.0.0",
+  "description": "jh's practice record",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaeer/fe-practice.git"
+  },
+  "author": "jh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vaeer/fe-practice/issues"
+  },
+  "homepage": "https://github.com/vaeer/fe-practice#readme"
+}
