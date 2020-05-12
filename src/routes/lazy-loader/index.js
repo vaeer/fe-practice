@@ -10,16 +10,15 @@ const imgUrls = [
     'http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1589881745&t=210fdc22a93fe32de80f0192102fe98f'
 ];
 
-export default React.memo(props => {
+// 传统的处理方式
+const Common = React.memo(props => {
     const imgRef = useRef();
 
     useEffect(() => {
         check();
-        window.addEventListener('scroll', e => {
-            check();
-        });
+        window.addEventListener('scroll', check);
         return () => {
-            window.removeEventListener('scroll');
+            window.removeEventListener('scroll', check);
         };
     }, [window]);
 
@@ -44,12 +43,64 @@ export default React.memo(props => {
     const inSight = el => {
         const top = el.getBoundingClientRect().top;
         const clientHeight = window.innerHeight;
-        return top <= clientHeight;
+        return top <= clientHeight - 50;
     };
 
     return (<div ref={imgRef}>
         {
-            imgUrls.map(url =><img data-src={url} alt=""/>)
+            imgUrls.map((url, idx) =><img key={idx} data-src={url} alt=""/>)
         }
     </div>);
 });
+
+const Observer = React.memo(props => {
+    const imgRef = useRef();
+    useEffect(() => {
+        const observer = new IntersectionObserver(function (entries, observer) {
+            entries.forEach((item) => { // entries 是被监听的元素集合它是一个数组
+                const {target} = item;
+                if (item.isIntersecting) { // 判断图片是否在视口内
+                    target.src = target.dataset.src;
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.2
+        });
+
+        const imgEls = imgRef.current.children;
+        for(let i = 0; i < imgEls.length; i++) {
+            observer.observe(imgEls[i]);
+        }
+    }, []);
+
+    
+    return (
+        <div ref={imgRef}>
+            {
+                imgUrls.map((url, idx) =><img key={idx} data-src={url} alt=""/>)
+            }
+        </div>
+    );
+});
+
+export default React.memo(props => {
+    const [value, setValue] = useState('observer');
+    return (
+        <>
+            <div>
+                <input id="common" type="radio" name="type" value="common" onChange={e => {setValue(e.target.value)}}/>
+                <label htmlFor="common">scroll事件监听</label>
+                <input id="observer" type="radio" name="type" defaultChecked value="observer" onChange={e => {setValue(e.target.value)}}/>
+                <label htmlFor="observer">IntersectionObserver API</label>
+            </div>
+            <div>
+                {
+                    value === 'common'
+                    ? <Common />
+                    : <Observer />
+                }
+            </div>
+        </>
+    );
+})
