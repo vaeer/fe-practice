@@ -1,0 +1,7 @@
+:root {
+    --global-height: 100%;
+}
+
+html, body {
+    height: var(--global-height);
+}
