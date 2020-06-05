@@ -10,10 +10,15 @@ export default () => (
     <Suspense fallback={<div>loading。。。。。</div>}>
         <Router>
             <Switch>
+                <Route
+                    exact
+                    path="/"
+                    key="/"
+                    render={() => <button onClick={methodDoesNotExist}>Break the world</button>}
+                />
                 {
                     routes.map((route, index) => {
                         const C = lazy(() => import(`${route}`));
-                        console.log(execPath(route));
                         return (<Route
                             exact
                             path={execPath(route)}

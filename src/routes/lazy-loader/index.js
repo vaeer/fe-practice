@@ -85,13 +85,13 @@ const Observer = React.memo(props => {
 });
 
 export default React.memo(props => {
-    const [value, setValue] = useState('observer');
+    const [value, setValue] = useState('common');
     return (
         <>
             <div>
-                <input id="common" type="radio" name="type" value="common" onChange={e => {setValue(e.target.value)}}/>
+                <input id="common" type="radio" name="type" defaultChecked value="common" onChange={e => {setValue(e.target.value)}}/>
                 <label htmlFor="common">scroll事件监听</label>
-                <input id="observer" type="radio" name="type" defaultChecked value="observer" onChange={e => {setValue(e.target.value)}}/>
+                <input id="observer" type="radio" name="type" value="observer" onChange={e => {setValue(e.target.value)}}/>
                 <label htmlFor="observer">IntersectionObserver API</label>
             </div>
             <div>

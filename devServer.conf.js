@@ -1,5 +1,6 @@
 module.exports = {
-    port: 3333, // 端口号
+    // host: '172.24.144.28',
+    port: 8888, // 端口号
     open: true, // 自动打开
     hot: true, // 是否使用热更新
     watchOptions: {
